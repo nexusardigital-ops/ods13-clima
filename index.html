@@ -5,17 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ODS13: Clima em Transformação - Do Global ao Local</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Menu Mobile */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                right: 20px;
+                top: 20px;
+            }
+
+            header nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #1e3c72;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            }
+
+            header nav ul.show {
+                display: flex;
+            }
+
+            header nav ul li {
+                display: block;
+                padding: 12px 20px;
+                text-align: center;
+                border-bottom: 1px solid #2a5298;
+            }
+
+            header nav ul li:last-child {
+                border-bottom: none;
+            }
+
+            header #branding h1 {
+                font-size: 1.2em;
+                padding-right: 60px;
+            }
+
+            header {
+                padding: 15px 0;
+                min-height: 60px;
+            }
+
+            /* Ajuste no hero para compensar o header menor */
+            .hero {
+                min-height: 400px;
+                padding-top: 20px;
+            }
+
+            .hero h2 {
+                font-size: 2em;
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header #branding h1 {
+                font-size: 1em;
+            }
+
+            .hero h2 {
+                font-size: 1.6em;
+            }
+
+            .hero p {
+                font-size: 0.9em;
+                padding: 0 15px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>ODS13: Clima em Transformação - Do Global ao Local</h1>
+            <div id="branding">
+                <h1>ODS13: Clima em Transformação</h1>
+            </div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
             <nav>
-                <ul>
-                    <li><a href="#global">Mudanças Climáticas no Mundo</a></li>
-                    <li><a href="#brasil">Mudanças Climáticas no Brasil</a></li>
-                    <li><a href="#humanos">Impactos na Vida Humana</a></li>
-                    <li><a href="#solucoes">Soluções Globais e Locais</a></li>
+                <ul id="menu">
+                    <li><a href="#global" onclick="closeMenu()">Mudanças no Mundo</a></li>
+                    <li><a href="#brasil" onclick="closeMenu()">Mudanças no Brasil</a></li>
+                    <li><a href="#humanos" onclick="closeMenu()">Impactos Humanos</a></li>
+                    <li><a href="#solucoes" onclick="closeMenu()">Soluções</a></li>
                 </ul>
             </nav>
         </div>
@@ -145,5 +232,27 @@
             <p>&copy; 2025 ODS13 - Clima em Transformação. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            menu.classList.toggle('show');
+        }
+
+        function closeMenu() {
+            const menu = document.getElementById('menu');
+            menu.classList.remove('show');
+        }
+
+        // Fechar menu ao clicar fora
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('menu');
+            const toggle = document.querySelector('.menu-toggle');
+            
+            if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+                menu.classList.remove('show');
+            }
+        });
+    </script>
 </body>
 </html>
