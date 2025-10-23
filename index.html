@@ -33,7 +33,7 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: #1e3c72;
+                background: #6a0dad; /* Roxo */
                 flex-direction: column;
                 padding: 20px 0;
                 box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -47,7 +47,7 @@
                 display: block;
                 padding: 12px 20px;
                 text-align: center;
-                border-bottom: 1px solid #2a5298;
+                border-bottom: 1px solid #8a2be2; /* Roxo mais claro */
             }
 
             header nav ul li:last-child {
@@ -147,7 +147,6 @@
                 <h2>Mudanças Climáticas no Mundo</h2>
                 <p>As mudanças climáticas induzidas pelo homem atingiram níveis alarmantes em 2024, com alguns impactos já irreversíveis por séculos. As temperaturas globais quebraram recordes e excederam temporariamente o limite de 1,5°C acima dos níveis pré-industriais, destacando a necessidade urgente de conter as emissões de gases de efeito estufa. Em 2023, as concentrações atmosféricas de CO₂ permaneceram em seus níveis mais altos em mais de 2 milhões de anos, 151% acima dos níveis pré-industriais.</p>
                 
-                <!-- IMAGEM CORRIGIDA -->
                 <img src="https://images.unsplash.com/photo-1569163139394-de4e4f43e4e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Mudanças Climáticas Globais" loading="lazy">
                 
                 <p>Eventos climáticos extremos – incluindo ciclones tropicais, inundações e secas – levaram ao maior número de novos deslocamentos em 16 anos, agravando crises alimentares e causando enormes perdas econômicas e instabilidade social. A Terra já registrou um aumento médio de 0,11° Fahrenheit (0,06° Celsius) por década desde 1850, totalizando cerca de 2°F.</p>
@@ -177,7 +176,6 @@
                 <h3>Posição e Ações do Brasil:</h3>
                 <p>O Brasil tem evoluído em sua postura sobre as mudanças climáticas, passando de uma preocupação secundária para um papel central nas discussões internacionais. É signatário de acordos como o Protocolo de Kyoto (1997) e o Acordo de Paris (2015), e tem sido ativo nas Conferências das Partes (COP).</p>
                 
-                <!-- IMAGEM CORRIGIDA -->
                 <img src="https://images.unsplash.com/photo-1583323231931-cd4652b4547d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Seca no Brasil" loading="lazy">
                 
                 <h4>Metas e Medidas:</h4>
@@ -303,6 +301,23 @@
                         <input type="email" placeholder="Seu melhor e-mail" id="newsletter-email">
                         <button onclick="subscribeNewsletter()">Inscrever</button>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção QR Code -->
+        <section id="qrcode" class="content-section bg-light">
+            <div class="container">
+                <h2>📱 Compartilhe nosso Site</h2>
+                <p>Escaneie o QR Code para acessar este site diretamente no seu celular ou compartilhar com amigos:</p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://nexusardigital-ops.github.io/ods13-clima" 
+                         alt="QR Code para site ODS13" 
+                         style="border: 2px solid #6a0dad; border-radius: 12px; padding: 10px; background: white;">
+                    <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                        <strong>URL:</strong> https://nexusardigital-ops.github.io/ods13-clima
+                    </p>
                 </div>
             </div>
         </section>
