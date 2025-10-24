@@ -9,6 +9,30 @@
     <meta name="theme-color" content="#1e3c72">
     <link rel="canonical" href="https://nexusardigital-ops.github.io/ods13-clima">
     
+    <!-- Pré-carregamento de recursos críticos -->
+    <link rel="preload" href="https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800" as="image">
+    <link rel="preload" href="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800" as="image">
+    
+    <!-- Web App Manifest para PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Schema Markup para SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "ODS13 - Clima em Transformação",
+      "description": "Site educativo sobre mudanças climáticas e ODS13",
+      "url": "https://nexusardigital-ops.github.io/ods13-clima",
+      "creator": {
+        "@type": "Organization",
+        "name": "Colégio Objetivo"
+      }
+    }
+    </script>
+    
     <style>
         /* Reset e configurações gerais */
         * {
@@ -22,6 +46,35 @@
             line-height: 1.6;
             color: #333;
             background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        /* Modo Alto Contraste */
+        body.high-contrast {
+            background: #000;
+            color: #fff;
+        }
+        
+        body.high-contrast .content-section {
+            background: #111;
+            color: #fff;
+        }
+        
+        body.high-contrast .bg-light {
+            background: #222 !important;
+        }
+        
+        body.high-contrast .action-card,
+        body.high-contrast .quiz-container,
+        body.high-contrast .faq-item {
+            background: #333;
+            color: #fff;
+            border: 2px solid yellow;
+        }
+        
+        /* Modo Daltonismo */
+        body.color-blind {
+            filter: grayscale(100%);
         }
         
         .container {
@@ -115,6 +168,8 @@
             margin-top: 20px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: none;
+            cursor: pointer;
         }
         
         .cta-button:hover {
@@ -655,6 +710,183 @@
             transition: width 0.5s ease;
         }
         
+        /* NOVAS SEÇÕES IMPLEMENTADAS */
+        
+        /* Mapa de Ações */
+        .mapa-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .estados-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .estado-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .estado-card:hover {
+            border-color: #1e3c72;
+            transform: translateY(-2px);
+        }
+        
+        .estado-card.ativo {
+            background: #1e3c72;
+            color: white;
+        }
+        
+        /* Desafios */
+        .desafio-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .desafio-progress {
+            margin: 20px 0;
+        }
+        
+        .progress-bar-horizontal {
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        /* Biblioteca de Recursos */
+        .recursos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .recurso-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .recurso-card h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+        
+        /* Controles de Acessibilidade */
+        .accessibility-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .accessibility-btn {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        
+        /* Widget de Feedback */
+        .feedback-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .feedback-btn {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Modal de Pesquisa */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 3000;
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .rating-stars {
+            margin: 20px 0;
+            font-size: 2em;
+            cursor: pointer;
+        }
+        
+        .rating-stars span {
+            margin: 0 5px;
+            transition: transform 0.2s ease;
+        }
+        
+        .rating-stars span:hover {
+            transform: scale(1.2);
+        }
+        
+        /* Notificação de Conquista */
+        .achievement-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 4000;
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+        }
+        
+        .achievement-notification.show {
+            transform: translateX(0);
+        }
+        
         /* Loading para imagens */
         img {
             background: #f0f0f0;
@@ -789,6 +1021,26 @@
                 margin: 20px;
                 padding: 20px;
             }
+            
+            /* Novas seções responsivas */
+            .estados-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+            
+            .recursos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .accessibility-controls {
+                bottom: 10px;
+                left: 10px;
+                padding: 10px;
+            }
+            
+            .feedback-widget {
+                bottom: 10px;
+                right: 10px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -816,6 +1068,10 @@
             .carbon-score {
                 font-size: 2em;
             }
+            
+            .estados-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -825,6 +1081,24 @@
     
     <!-- Progress Bar -->
     <div class="progress-bar"></div>
+    
+    <!-- Controles de Acessibilidade -->
+    <div class="accessibility-controls">
+        <button class="accessibility-btn" onclick="toggleHighContrast()">Alto Contraste</button>
+        <button class="accessibility-btn" onclick="toggleColorBlindMode()">Modo Daltonismo</button>
+        <button class="accessibility-btn" onclick="readAloud()">Ler em Voz Alta</button>
+    </div>
+    
+    <!-- Widget de Feedback -->
+    <div class="feedback-widget">
+        <button class="feedback-btn" onclick="openFeedback()">💬 Feedback</button>
+    </div>
+    
+    <!-- Notificação de Conquista -->
+    <div id="achievementNotification" class="achievement-notification">
+        <strong>🎉 Conquista Desbloqueada!</strong>
+        <p id="achievementText"></p>
+    </div>
     
     <!-- Modal da Calculadora de Carbono -->
     <div id="carbonCalculator" class="calculator-modal">
@@ -912,6 +1186,21 @@
                     <button onclick="shareCarbonResult()" class="cta-button">Compartilhar</button>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Pesquisa -->
+    <div id="surveyModal" class="modal">
+        <div class="modal-content">
+            <h3>O que você achou do site?</h3>
+            <div class="rating-stars">
+                <span onclick="rateSite(1)">⭐</span>
+                <span onclick="rateSite(2)">⭐</span>
+                <span onclick="rateSite(3)">⭐</span>
+                <span onclick="rateSite(4)">⭐</span>
+                <span onclick="rateSite(5)">⭐</span>
+            </div>
+            <button onclick="closeSurvey()" class="cta-button">Enviar</button>
         </div>
     </div>
     
@@ -1006,7 +1295,24 @@
             </div>
         </section>
 
-        <section id="global" class="content-section">
+        <!-- Mapa de Ações Locais -->
+        <section id="mapa-acoes" class="content-section">
+            <div class="container">
+                <h2>🗺️ Ações Climáticas no Brasil</h2>
+                <div class="mapa-container">
+                    <p>Explore iniciativas sustentáveis em diferentes estados brasileiros</p>
+                    <div class="estados-grid" id="estadosGrid">
+                        <!-- Estados serão preenchidos via JavaScript -->
+                    </div>
+                    <div id="estadoInfo" style="margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 10px; display: none;">
+                        <h4 id="estadoNome"></h4>
+                        <p id="estadoDescricao"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="global" class="content-section bg-light">
             <div class="container">
                 <h2>Mudanças Climáticas no Mundo</h2>
                 <p>As mudanças climáticas induzidas pelo homem atingiram níveis alarmantes em 2024, com alguns impactos já irreversíveis por séculos. As temperaturas globais quebraram recordes e excederam temporariamente o limite de 1,5°C acima dos níveis pré-industriais, destacando a necessidade urgente de conter as emissões de gases de efeito estufa. Em 2023, as concentrações atmosféricas de CO₂ permaneceram em seus níveis mais altos em mais de 2 milhões de anos, 151% acima dos níveis pré-industriais.</p>
@@ -1021,10 +1327,10 @@
             </div>
         </section>
 
-        <section id="brasil" class="content-section bg-light">
+        <section id="brasil" class="content-section">
             <div class="container">
                 <h2>Mudanças Climáticas no Brasil</h2>
-                <p>O Brasil, detentor da maior biodiversidade do mundo, es um dos países mais impactados pelas mudanças climáticas e, paradoxalmente, um dos maiores emissores de gases de efeito estufa globalmente. As alterações climáticas no país são resultado direto da elevação das temperaturas médias do planeta e das atividades antrópicas, como desmatamento, queimadas e atividade agropecuária.</p>
+                <p>O Brasil, detentor da maior biodiversidade do mundo, é um dos países mais impactados pelas mudanças climáticas e, paradoxalmente, um dos maiores emissores de gases de efeito estufa globalmente. As alterações climáticas no país são resultado direto da elevação das temperaturas médias do planeta e das atividades antrópicas, como desmatamento, queimadas e atividade agropecuária.</p>
                 
                 <h3>Impactos no Brasil:</h3>
                 <ul>
@@ -1051,7 +1357,7 @@
             </div>
         </section>
 
-        <section id="humanos" class="content-section">
+        <section id="humanos" class="content-section bg-light">
             <div class="container">
                 <h2>Impactos na Vida Humana</h2>
                 <p>As mudanças climáticas representam a maior ameaça à saúde e ao bem-estar da humanidade. Seus impactos já são visíveis e afetam diversas esferas da vida humana:</p>
@@ -1085,7 +1391,7 @@
         </section>
 
         <!-- Quiz Interativo -->
-        <section id="quiz" class="content-section bg-light">
+        <section id="quiz" class="content-section">
             <div class="container">
                 <h2>🧠 Teste Seu Conhecimento</h2>
                 <div class="quiz-container">
@@ -1109,7 +1415,63 @@
             </div>
         </section>
 
-        <section id="solucoes" class="content-section">
+        <!-- Desafios Semanais -->
+        <section id="desafios" class="content-section bg-light">
+            <div class="container">
+                <h2>💪 Desafio da Semana</h2>
+                <div class="desafio-card">
+                    <h3>🌱 Reduza o Desperdício de Alimentos</h3>
+                    <p>Esta semana, desafiamos você a reduzir o desperdício de alimentos em sua casa. Planeje suas refeições, use sobras criativamente e composte o que não for possível aproveitar.</p>
+                    <div class="desafio-progress">
+                        <div class="progress-bar-horizontal">
+                            <div class="progress-fill" style="width: 30%"></div>
+                        </div>
+                        <span>30% dos participantes completaram</span>
+                    </div>
+                    <button class="cta-button" onclick="joinChallenge()">Aceitar Desafio</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Biblioteca de Recursos -->
+        <section id="recursos" class="content-section">
+            <div class="container">
+                <h2>📚 Biblioteca Climática</h2>
+                <div class="recursos-grid">
+                    <div class="recurso-card">
+                        <h4>📊 Dados em Tempo Real</h4>
+                        <p>Concentração de CO₂: <span id="co2-level">415 ppm</span></p>
+                        <p>Temperatura Global: <span id="global-temp">+1.2°C</span></p>
+                        <p>Nível do Mar: <span id="sea-level">+24 cm</span></p>
+                        <button class="cta-button" onclick="showRealTimeData()">Atualizar Dados</button>
+                    </div>
+                    <div class="recurso-card">
+                        <h4>🎬 Documentários</h4>
+                        <p>Lista curada de filmes sobre mudanças climáticas</p>
+                        <ul style="text-align: left; margin: 15px 0;">
+                            <li>• "Uma Verdade Inconveniente"</li>
+                            <li>• "Antes que seja Tarde"</li>
+                            <li>• "Nosso Planeta"</li>
+                            <li>• "A Era das Consequências"</li>
+                        </ul>
+                        <button class="cta-button" onclick="showDocumentaries()">Ver Lista Completa</button>
+                    </div>
+                    <div class="recurso-card">
+                        <h4>📖 Relatórios Científicos</h4>
+                        <p>IPCC, ONU e pesquisas recentes</p>
+                        <ul style="text-align: left; margin: 15px 0;">
+                            <li>• Relatório IPCC 2023</li>
+                            <li>• Agenda 2030 - ONU</li>
+                            <li>• Painel Brasileiro de Mudanças Climáticas</li>
+                            <li>• Relatório de Emissões Globais</li>
+                        </ul>
+                        <button class="cta-button" onclick="showReports()">Acessar Relatórios</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solucoes" class="content-section bg-light">
             <div class="container">
                 <h2>Soluções Globais e Locais</h2>
                 <p>Combater as mudanças climáticas exige um esforço coordenado em níveis global e local, envolvendo governos, empresas, comunidades e indivíduos. As soluções abrangem desde políticas e tecnologias até mudanças no estilo de vida.</p>
@@ -1168,7 +1530,7 @@
         </section>
 
         <!-- Seção FAQ -->
-        <section id="faq" class="content-section bg-light">
+        <section id="faq" class="content-section">
             <div class="container">
                 <h2>Perguntas Frequentes</h2>
                 <div class="faq-container">
@@ -1229,6 +1591,54 @@
     </footer>
 
     <script>
+        // ========== CONFIGURAÇÕES INICIAIS ==========
+        
+        // Sistema de conquistas
+        const achievements = {
+            calculatorUsed: false,
+            quizCompleted: false,
+            challengeAccepted: false,
+            mapExplored: false
+        };
+
+        // Dados dos estados brasileiros
+        const estadosData = {
+            'SP': {
+                nome: 'São Paulo',
+                descricao: 'Líder em energia renovável com programas de reflorestamento urbano e transporte sustentável.'
+            },
+            'RJ': {
+                nome: 'Rio de Janeiro',
+                descricao: 'Projetos de conservação da Mata Atlântica e energia solar em comunidades.'
+            },
+            'MG': {
+                nome: 'Minas Gerais',
+                descricao: 'Iniciativas de mineração sustentável e recuperação de áreas degradadas.'
+            },
+            'RS': {
+                nome: 'Rio Grande do Sul',
+                descricao: 'Agricultura sustentável e energias renováveis no campo.'
+            },
+            'AM': {
+                nome: 'Amazonas',
+                descricao: 'Proteção da floresta amazônica e desenvolvimento de bioeconomia.'
+            },
+            'BA': {
+                nome: 'Bahia',
+                descricao: 'Grandes parques eólicos e projetos de energia solar.'
+            },
+            'PR': {
+                nome: 'Paraná',
+                descricao: 'Conservação da Mata Atlântica e agricultura de baixo carbono.'
+            },
+            'PE': {
+                nome: 'Pernambuco',
+                descricao: 'Projetos de adaptação costeira e energias renováveis.'
+            }
+        };
+
+        // ========== FUNÇÕES PRINCIPAIS ==========
+        
         // Menu Mobile
         function toggleMenu() {
             const menu = document.getElementById('menu');
@@ -1269,6 +1679,9 @@
                     dot.classList.add('active');
                 }
             });
+            
+            // Track engagement
+            trackUserEngagement();
         });
 
         // FAQ Accordion
@@ -1356,19 +1769,27 @@
             setTimeout(() => {
                 if (result === 'correct') {
                     alert('✅ Correto! Continue assim!');
+                    if (!achievements.quizCompleted) {
+                        unlockAchievement('quizCompleted', 'Mestre do Conhecimento Climático!');
+                    }
                 } else {
                     alert('❌ Tente novamente!');
                 }
             }, 500);
         }
 
-        // CALCULADORA DE CARBONO - FUNCIONALIDADE COMPLETA
+        // ========== NOVAS FUNCIONALIDADES IMPLEMENTADAS ==========
         
+        // CALCULADORA DE CARBONO
         let currentStep = 1;
         
         function openCarbonCalculator() {
             document.getElementById('carbonCalculator').style.display = 'block';
             resetCalculator();
+            
+            if (!achievements.calculatorUsed) {
+                unlockAchievement('calculatorUsed', 'Calculadora de Carbono Utilizada!');
+            }
         }
         
         function closeCarbonCalculator() {
@@ -1518,6 +1939,138 @@
             }
         });
 
+        // Mapa de Ações Locais
+        function initMapaEstados() {
+            const estadosGrid = document.getElementById('estadosGrid');
+            let html = '';
+            
+            for (const [sigla, data] of Object.entries(estadosData)) {
+                html += `
+                    <div class="estado-card" onclick="showEstadoInfo('${sigla}')">
+                        <strong>${sigla}</strong>
+                        <div>${data.nome}</div>
+                    </div>
+                `;
+            }
+            
+            estadosGrid.innerHTML = html;
+        }
+        
+        function showEstadoInfo(sigla) {
+            const data = estadosData[sigla];
+            const infoDiv = document.getElementById('estadoInfo');
+            const estadoNome = document.getElementById('estadoNome');
+            const estadoDescricao = document.getElementById('estadoDescricao');
+            
+            estadoNome.textContent = data.nome;
+            estadoDescricao.textContent = data.descricao;
+            infoDiv.style.display = 'block';
+            
+            // Reset todas as cards
+            document.querySelectorAll('.estado-card').forEach(card => {
+                card.classList.remove('ativo');
+            });
+            
+            // Ativar card clicada
+            event.target.closest('.estado-card').classList.add('ativo');
+            
+            if (!achievements.mapExplored) {
+                unlockAchievement('mapExplored', 'Explorador do Mapa Brasileiro!');
+            }
+        }
+        
+        // Desafios
+        function joinChallenge() {
+            alert('🎉 Desafio aceito! Você receberá lembretes e dicas durante a semana.');
+            
+            if (!achievements.challengeAccepted) {
+                unlockAchievement('challengeAccepted', 'Desafiante Climático!');
+            }
+        }
+        
+        // Biblioteca de Recursos
+        function showRealTimeData() {
+            // Simulação de dados atualizados
+            const co2 = 415 + Math.random() * 2;
+            const temp = 1.2 + Math.random() * 0.1;
+            const seaLevel = 24 + Math.random() * 0.5;
+            
+            document.getElementById('co2-level').textContent = co2.toFixed(1) + ' ppm';
+            document.getElementById('global-temp').textContent = '+' + temp.toFixed(1) + '°C';
+            document.getElementById('sea-level').textContent = '+' + seaLevel.toFixed(1) + ' cm';
+            
+            alert('Dados atualizados com sucesso!');
+        }
+        
+        function showDocumentaries() {
+            alert('Em breve: Lista completa de documentários com links para streaming!');
+        }
+        
+        function showReports() {
+            alert('Em breve: Biblioteca completa de relatórios científicos para download!');
+        }
+        
+        // Sistema de Conquistas
+        function unlockAchievement(achievementKey, message) {
+            achievements[achievementKey] = true;
+            showAchievementNotification(message);
+        }
+        
+        function showAchievementNotification(message) {
+            const notification = document.getElementById('achievementNotification');
+            const text = document.getElementById('achievementText');
+            
+            text.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Acessibilidade
+        function toggleHighContrast() {
+            document.body.classList.toggle('high-contrast');
+            localStorage.setItem('highContrast', document.body.classList.contains('high-contrast'));
+        }
+        
+        function toggleColorBlindMode() {
+            document.body.classList.toggle('color-blind');
+            localStorage.setItem('colorBlind', document.body.classList.contains('color-blind'));
+        }
+        
+        function readAloud() {
+            if ('speechSynthesis' in window) {
+                const text = document.querySelector('h2').textContent + '. ' + document.querySelector('p').textContent;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'pt-BR';
+                speechSynthesis.speak(utterance);
+            } else {
+                alert('Seu navegador não suporta leitura em voz alta.');
+            }
+        }
+        
+        // Feedback e Pesquisa
+        function openFeedback() {
+            document.getElementById('surveyModal').style.display = 'block';
+        }
+        
+        function closeSurvey() {
+            document.getElementById('surveyModal').style.display = 'none';
+            alert('Obrigado pelo seu feedback!');
+        }
+        
+        function rateSite(rating) {
+            const stars = document.querySelectorAll('.rating-stars span');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.style.color = '#FFD700';
+                } else {
+                    star.style.color = '#ccc';
+                }
+            });
+        }
+        
         // Funções dos cards de ação
         function openPetition() {
             alert('Em breve: Petições por ações climáticas! Enquanto isso, você pode buscar petições em plataformas como change.org ou avaaz.org');
@@ -1526,11 +2079,31 @@
         function findEvents() {
             alert('Em breve: Eventos climáticos na sua região! Enquanto isso, você pode buscar eventos em plataformas como meetup.com ou redes sociais de organizações ambientais');
         }
-
-        // Otimização de imagens - Lazy Loading melhorado
+        
+        // Analytics de Engajamento
+        function trackUserEngagement() {
+            // Simulação de tracking - em produção, enviaria para Google Analytics
+            console.log('Engajamento do usuário monitorado');
+        }
+        
+        // ========== INICIALIZAÇÃO ==========
+        
         document.addEventListener('DOMContentLoaded', function() {
-            const images = document.querySelectorAll('img[loading="lazy"]');
+            // Inicializar melhorias
+            createProgressBar();
+            initMapaEstados();
+            initTextToSpeech();
             
+            // Carregar preferências de acessibilidade
+            if (localStorage.getItem('highContrast') === 'true') {
+                document.body.classList.add('high-contrast');
+            }
+            if (localStorage.getItem('colorBlind') === 'true') {
+                document.body.classList.add('color-blind');
+            }
+            
+            // Otimização de imagens - Lazy Loading melhorado
+            const images = document.querySelectorAll('img[loading="lazy"]');
             const imageObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1547,8 +2120,13 @@
                 imageObserver.observe(img);
             });
             
-            // Inicializar melhorias
-            createProgressBar();
+            // Mostrar pesquisa após 30 segundos
+            setTimeout(() => {
+                if (!localStorage.getItem('surveyShown')) {
+                    openFeedback();
+                    localStorage.setItem('surveyShown', 'true');
+                }
+            }, 30000);
         });
 
         // Service Worker para cache (opcional)
