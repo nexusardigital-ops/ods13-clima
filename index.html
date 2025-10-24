@@ -1086,7 +1086,6 @@
     <div class="accessibility-controls">
         <button class="accessibility-btn" onclick="toggleHighContrast()">Alto Contraste</button>
         <button class="accessibility-btn" onclick="toggleColorBlindMode()">Modo Daltonismo</button>
-        <button class="accessibility-btn" onclick="readAloud()">Ler em Voz Alta</button>
     </div>
     
     <!-- Widget de Feedback -->
@@ -1839,7 +1838,7 @@
             const carEmission = 0.21; // kg CO₂ por km
             const busEmission = 0.08; // kg CO₂ por km
             const flightEmission = 0.25; // kg CO₂ por km
-            const energyEmission = 0.5; // kg CO₂ por kWh
+            const energyEmission = 0.5; // kg CO₂ per kWh
             const meatEmission = 5.0; // kg CO₂ por refeição
             const organicBonus = 0.1; // Redução por consumo orgânico
             
@@ -2039,17 +2038,6 @@
             localStorage.setItem('colorBlind', document.body.classList.contains('color-blind'));
         }
         
-        function readAloud() {
-            if ('speechSynthesis' in window) {
-                const text = document.querySelector('h2').textContent + '. ' + document.querySelector('p').textContent;
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'pt-BR';
-                speechSynthesis.speak(utterance);
-            } else {
-                alert('Seu navegador não suporta leitura em voz alta.');
-            }
-        }
-        
         // Feedback e Pesquisa
         function openFeedback() {
             document.getElementById('surveyModal').style.display = 'block';
@@ -2092,7 +2080,6 @@
             // Inicializar melhorias
             createProgressBar();
             initMapaEstados();
-            initTextToSpeech();
             
             // Carregar preferências de acessibilidade
             if (localStorage.getItem('highContrast') === 'true') {
