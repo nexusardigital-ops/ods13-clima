@@ -327,11 +327,11 @@
         }
         
         .newsletter h3 {
-            color: white; /* CORREÇÃO APLICADA AQUI */
+            color: white;
         }
         
         .newsletter p {
-            color: white; /* CORREÇÃO APLICADA AQUI */
+            color: white;
         }
         
         .newsletter input {
@@ -538,6 +538,123 @@
             background: #2a5298;
         }
         
+        /* CALCULADORA DE CARBONO */
+        .calculator-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+        
+        .calculator-content {
+            background: white;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .close-calculator {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .calculator-step {
+            display: none;
+        }
+        
+        .calculator-step.active {
+            display: block;
+        }
+        
+        .calculator-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .calculator-input {
+            margin: 15px 0;
+        }
+        
+        .calculator-input label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1e3c72;
+        }
+        
+        .calculator-input input,
+        .calculator-input select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        .calculator-input input:focus,
+        .calculator-input select:focus {
+            border-color: #1e3c72;
+            outline: none;
+        }
+        
+        .calculator-result {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #ecf0f1);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .carbon-score {
+            font-size: 3em;
+            font-weight: bold;
+            color: #1e3c72;
+            margin: 10px 0;
+        }
+        
+        .carbon-level {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        
+        .carbon-tips {
+            text-align: left;
+            margin-top: 20px;
+        }
+        
+        .carbon-tips h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .progress-meter {
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #FFC107, #FF5722);
+            transition: width 0.5s ease;
+        }
+        
         /* Loading para imagens */
         img {
             background: #f0f0f0;
@@ -666,6 +783,12 @@
             .timeline-content {
                 margin: 0;
             }
+            
+            /* Calculadora responsiva */
+            .calculator-content {
+                margin: 20px;
+                padding: 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -689,6 +812,10 @@
             .action-cards {
                 grid-template-columns: 1fr;
             }
+            
+            .carbon-score {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
@@ -698,6 +825,95 @@
     
     <!-- Progress Bar -->
     <div class="progress-bar"></div>
+    
+    <!-- Modal da Calculadora de Carbono -->
+    <div id="carbonCalculator" class="calculator-modal">
+        <div class="calculator-content">
+            <span class="close-calculator" onclick="closeCarbonCalculator()">&times;</span>
+            <h2>🌱 Calculadora de Pegada de Carbono</h2>
+            
+            <!-- Passo 1: Transporte -->
+            <div id="step1" class="calculator-step active">
+                <h3>🚗 Transporte</h3>
+                <div class="calculator-input">
+                    <label>Quantos km você dirige por semana?</label>
+                    <input type="number" id="carKm" min="0" value="0">
+                </div>
+                <div class="calculator-input">
+                    <label>Quantos km você viaja de ônibus/metrô por semana?</label>
+                    <input type="number" id="publicTransportKm" min="0" value="0">
+                </div>
+                <div class="calculator-input">
+                    <label>Quantos km você viaja de avião por ano?</label>
+                    <input type="number" id="flightKm" min="0" value="0">
+                </div>
+                <div class="calculator-nav">
+                    <button onclick="nextStep(2)" class="cta-button">Próximo</button>
+                </div>
+            </div>
+            
+            <!-- Passo 2: Energia -->
+            <div id="step2" class="calculator-step">
+                <h3>⚡ Energia em Casa</h3>
+                <div class="calculator-input">
+                    <label>Consumo mensal de energia (kWh)</label>
+                    <input type="number" id="energyConsumption" min="0" value="0">
+                </div>
+                <div class="calculator-input">
+                    <label>Quantas pessoas moram na sua casa?</label>
+                    <input type="number" id="householdSize" min="1" value="1">
+                </div>
+                <div class="calculator-nav">
+                    <button onclick="prevStep(1)" class="share-btn">Voltar</button>
+                    <button onclick="nextStep(3)" class="cta-button">Próximo</button>
+                </div>
+            </div>
+            
+            <!-- Passo 3: Alimentação -->
+            <div id="step3" class="calculator-step">
+                <h3>🍽️ Alimentação</h3>
+                <div class="calculator-input">
+                    <label>Quantas refeições com carne você consome por semana?</label>
+                    <input type="number" id="meatMeals" min="0" max="21" value="0">
+                </div>
+                <div class="calculator-input">
+                    <label>Você consome produtos orgânicos?</label>
+                    <select id="organicFood">
+                        <option value="0">Não</option>
+                        <option value="0.5">Às vezes</option>
+                        <option value="1">Frequentemente</option>
+                    </select>
+                </div>
+                <div class="calculator-nav">
+                    <button onclick="prevStep(2)" class="share-btn">Voltar</button>
+                    <button onclick="calculateCarbonFootprint()" class="cta-button">Calcular</button>
+                </div>
+            </div>
+            
+            <!-- Resultado -->
+            <div id="step4" class="calculator-step">
+                <h3>📊 Sua Pegada de Carbono</h3>
+                <div class="calculator-result">
+                    <div class="carbon-score" id="carbonScore">0</div>
+                    <div class="carbon-level" id="carbonLevel"></div>
+                    <div class="progress-meter">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p>toneladas de CO₂ por ano</p>
+                </div>
+                
+                <div class="carbon-tips">
+                    <h4>💡 Dicas para Reduzir sua Pegada:</h4>
+                    <div id="carbonTips"></div>
+                </div>
+                
+                <div class="calculator-nav">
+                    <button onclick="prevStep(3)" class="share-btn">Recalcular</button>
+                    <button onclick="shareCarbonResult()" class="cta-button">Compartilhar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <header>
         <div class="container">
@@ -808,7 +1024,7 @@
         <section id="brasil" class="content-section bg-light">
             <div class="container">
                 <h2>Mudanças Climáticas no Brasil</h2>
-                <p>O Brasil, detentor da maior biodiversidade do mundo, é um dos países mais impactados pelas mudanças climáticas e, paradoxalmente, um dos maiores emissores de gases de efeito estufa globalmente. As alterações climáticas no país são resultado direto da elevação das temperaturas médias do planeta e das atividades antrópicas, como desmatamento, queimadas e atividade agropecuária.</p>
+                <p>O Brasil, detentor da maior biodiversidade do mundo, es um dos países mais impactados pelas mudanças climáticas e, paradoxalmente, um dos maiores emissores de gases de efeito estufa globalmente. As alterações climáticas no país são resultado direto da elevação das temperaturas médias do planeta e das atividades antrópicas, como desmatamento, queimadas e atividade agropecuária.</p>
                 
                 <h3>Impactos no Brasil:</h3>
                 <ul>
@@ -1146,11 +1362,163 @@
             }, 500);
         }
 
-        // Funções dos cards de ação
+        // CALCULADORA DE CARBONO - FUNCIONALIDADE COMPLETA
+        
+        let currentStep = 1;
+        
         function openCarbonCalculator() {
-            alert('Em breve: Calculadora de Pegada de Carbono! Enquanto isso, você pode calcular sua pegada em sites como footprint.wwf.org.br');
+            document.getElementById('carbonCalculator').style.display = 'block';
+            resetCalculator();
         }
+        
+        function closeCarbonCalculator() {
+            document.getElementById('carbonCalculator').style.display = 'none';
+        }
+        
+        function resetCalculator() {
+            currentStep = 1;
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('step4').classList.remove('active');
+            
+            // Reset dos valores
+            document.getElementById('carKm').value = '0';
+            document.getElementById('publicTransportKm').value = '0';
+            document.getElementById('flightKm').value = '0';
+            document.getElementById('energyConsumption').value = '0';
+            document.getElementById('householdSize').value = '1';
+            document.getElementById('meatMeals').value = '0';
+            document.getElementById('organicFood').value = '0';
+        }
+        
+        function nextStep(step) {
+            document.querySelector('.calculator-step.active').classList.remove('active');
+            document.getElementById('step' + step).classList.add('active');
+            currentStep = step;
+        }
+        
+        function prevStep(step) {
+            document.querySelector('.calculator-step.active').classList.remove('active');
+            document.getElementById('step' + step).classList.add('active');
+            currentStep = step;
+        }
+        
+        function calculateCarbonFootprint() {
+            // Coletar dados
+            const carKm = parseFloat(document.getElementById('carKm').value) || 0;
+            const publicTransportKm = parseFloat(document.getElementById('publicTransportKm').value) || 0;
+            const flightKm = parseFloat(document.getElementById('flightKm').value) || 0;
+            const energyConsumption = parseFloat(document.getElementById('energyConsumption').value) || 0;
+            const householdSize = parseFloat(document.getElementById('householdSize').value) || 1;
+            const meatMeals = parseFloat(document.getElementById('meatMeals').value) || 0;
+            const organicFood = parseFloat(document.getElementById('organicFood').value) || 0;
+            
+            // Fatores de emissão (kg CO₂ por unidade)
+            const carEmission = 0.21; // kg CO₂ por km
+            const busEmission = 0.08; // kg CO₂ por km
+            const flightEmission = 0.25; // kg CO₂ por km
+            const energyEmission = 0.5; // kg CO₂ por kWh
+            const meatEmission = 5.0; // kg CO₂ por refeição
+            const organicBonus = 0.1; // Redução por consumo orgânico
+            
+            // Cálculos
+            const transportEmissions = (carKm * carEmission * 52) + 
+                                     (publicTransportKm * busEmission * 52) + 
+                                     (flightKm * flightEmission);
+            
+            const energyEmissions = (energyConsumption * energyEmission * 12) / householdSize;
+            
+            const foodEmissions = (meatMeals * meatEmission * 52) * (1 - organicBonus);
+            
+            // Total anual em toneladas
+            const totalEmissions = (transportEmissions + energyEmissions + foodEmissions) / 1000;
+            
+            // Exibir resultado
+            displayCarbonResult(totalEmissions);
+            nextStep(4);
+        }
+        
+        function displayCarbonResult(emissions) {
+            const carbonScore = document.getElementById('carbonScore');
+            const carbonLevel = document.getElementById('carbonLevel');
+            const progressFill = document.getElementById('progressFill');
+            const carbonTips = document.getElementById('carbonTips');
+            
+            // Arredondar para 1 casa decimal
+            const roundedEmissions = Math.round(emissions * 10) / 10;
+            carbonScore.textContent = roundedEmissions;
+            
+            // Determinar nível
+            let level, levelColor, tips;
+            
+            if (roundedEmissions < 2) {
+                level = "Excelente! Abaixo da média mundial";
+                levelColor = "#4CAF50";
+                tips = `
+                    <p>✅ Continue com suas práticas sustentáveis!</p>
+                    <p>🌱 Considere investir em energia renovável</p>
+                    <p>🚲 Continue usando transporte sustentável</p>
+                `;
+            } else if (roundedEmissions < 4) {
+                level = "Bom! Próximo da média brasileira";
+                levelColor = "#FFC107";
+                tips = `
+                    <p>🚗 Reduza o uso do carro quando possível</p>
+                    <p>💡 Troque para lâmpadas LED</p>
+                    <p>🍽️ Diminua o consumo de carne</p>
+                    <p>♻️ Recicle mais</p>
+                `;
+            } else if (roundedEmissions < 8) {
+                level = "Acima da média. Há espaço para melhorias";
+                levelColor = "#FF9800";
+                tips = `
+                    <p>🚗 Use transporte público ou bicicleta</p>
+                    <p>💡 Desligue aparelhos da tomada</p>
+                    <p>🍽️ Reduza carne para 2-3 vezes por semana</p>
+                    <p>🌡️ Ajuste termostato para economizar energia</p>
+                `;
+            } else {
+                level = "Alto! Considere mudanças significativas";
+                levelColor = "#FF5722";
+                tips = `
+                    <p>🚗 Considere carro elétrico ou transporte público</p>
+                    <p>🏠 Avalie eficiência energética da sua casa</p>
+                    <p>🍽️ Adote dieta mais vegetariana</p>
+                    <p>✈️ Reduza viagens de avião</p>
+                    <p>💡 Invista em energia solar</p>
+                `;
+            }
+            
+            carbonLevel.textContent = level;
+            carbonLevel.style.color = levelColor;
+            
+            // Barra de progresso (máximo 15 toneladas para escala)
+            const progressPercentage = Math.min((roundedEmissions / 15) * 100, 100);
+            progressFill.style.width = progressPercentage + '%';
+            
+            carbonTips.innerHTML = tips;
+        }
+        
+        function shareCarbonResult() {
+            const emissions = document.getElementById('carbonScore').textContent;
+            const level = document.getElementById('carbonLevel').textContent;
+            
+            const text = `Minha pegada de carbono é ${emissions} toneladas de CO₂ por ano - ${level}. Calcule a sua também!`;
+            const url = encodeURIComponent(window.location.href);
+            
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${url}`, '_blank');
+        }
+        
+        // Fechar calculadora ao clicar fora
+        document.addEventListener('click', function(event) {
+            const calculator = document.getElementById('carbonCalculator');
+            if (event.target === calculator) {
+                closeCarbonCalculator();
+            }
+        });
 
+        // Funções dos cards de ação
         function openPetition() {
             alert('Em breve: Petições por ações climáticas! Enquanto isso, você pode buscar petições em plataformas como change.org ou avaaz.org');
         }
